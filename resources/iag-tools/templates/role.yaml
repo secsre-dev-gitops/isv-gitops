@@ -7,6 +7,8 @@ metadata:
     chart: iag-tools
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 rules:
   - verbs:
       - patch

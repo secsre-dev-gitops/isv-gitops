@@ -2,6 +2,8 @@ apiVersion: ibm.com/v1
 kind: IBMApplicationGateway
 metadata:
   name: iag-tools
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
 spec:
   replicas: {{.Values.replicas}}
   deployment:

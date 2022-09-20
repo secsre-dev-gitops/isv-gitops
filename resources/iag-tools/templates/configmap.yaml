@@ -1,12 +1,16 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: iag-tools-proxy-config
+  namespace: iag
   labels:
     app: iag-tools
     chart: iag-tools-chart
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 data:
   config: |
     version: "20.12"

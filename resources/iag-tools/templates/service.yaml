@@ -7,6 +7,8 @@ metadata:
     chart: iag-tools-chart
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
 spec:
   ports:
   - name: https
