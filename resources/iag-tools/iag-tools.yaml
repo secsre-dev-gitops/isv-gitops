@@ -10,14 +10,13 @@ spec:
     imagePullPolicy: IfNotPresent 
   configuration:
     - type: configmap
-      name: iag-config
+      name: iag-tools-proxy-config
       dataKey: config
     - type: literal 
       value: |
         version: {{.Values.version}}
-        resource_servers:
-          - path: /app
-            connection_type: tcp
-            servers:
-              - host: {{.Values.host}}
-                port: {{.Values.port}}
+        server:
+            local_applications:
+              cred_viewer:
+                path_segment: "cred-viewer"
+                enable_html: true
