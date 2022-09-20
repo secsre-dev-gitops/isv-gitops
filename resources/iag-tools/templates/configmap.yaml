@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: iag-tools-proxy-config
+  labels:
+    app: iag-tools
+    chart: iag-tools-chart
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  config: |
+    version: "20.12"
+    server:
+      worker_threads: 600
+      session:
+        timeout: 64800
+        inactive_timeout: 14400
+    resource_servers: []
+    policies:
+      authorization:
+        # allow anyone authenticated to cred-viewer to facilitate debug
+        - name: "anyauth_access"
+          paths:
+            - "/cred-viewer*"
+          rule: anyauth
+          action: "permit"
+        # allow access to apps according to the rule defined
+        - name: "All access"
+          paths:
+            - "*"
+          rule: anyauth
+          action: "permit"

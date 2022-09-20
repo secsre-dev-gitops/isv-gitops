@@ -1,0 +1,96 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: iag-tools
+  labels:
+    app: iag-tools
+    chart: iag-tools
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+rules:
+  - verbs:
+      - patch
+    apiGroups:
+      - apps
+    resources:
+      - statefulsets
+      - deployments
+  - verbs:
+      - use
+    apiGroups:
+      - security.openshift.io
+    resources:
+      - securitycontextconstraints
+    resourceNames:
+      - privileged
+      - anyuid
+  - verbs:
+      - create
+    apiGroups:
+      - ''
+    resources:
+      - serviceaccounts
+  - verbs:
+      - get
+      - create
+      - delete
+    apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+  - verbs:
+      - get
+      - list
+      - create
+      - delete
+    apiGroups:
+      - ''
+      - extensions
+      - apps
+    resources:
+      - pods
+      - deployments
+      - statefulsets
+      - persistentvolumeclaims
+      - endpoints
+      - replicasets
+      - serviceaccounts
+  - verbs:
+      - get
+    apiGroups:
+      - ''
+    resources:
+      - services
+      - serviceaccounts
+      - pods/proxy
+      - pods/log
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+    resources:
+      - pods/exec
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+    resources:
+      - services
+      - configmaps
+      - secrets
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+      - certmanager.k8s.io
+      - cert-manager.io
+    resources:
+      - certificates
+  - verbs:
+      - get
+      - create
+    apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
