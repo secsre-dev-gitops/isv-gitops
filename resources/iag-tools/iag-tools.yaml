@@ -1,0 +1,23 @@
+apiVersion: ibm.com/v1
+kind: IBMApplicationGateway
+metadata:
+  name: iag-tools
+spec:
+  replicas: {{.Values.replicas}}
+  deployment:
+    serviceAccountName: ibm-application-gateway
+    image: ibmcom/ibm-application-gateway:{{.Values.iag-tools.version}}
+    imagePullPolicy: IfNotPresent 
+  configuration:
+    - type: configmap
+      name: iag-config
+      dataKey: config
+    - type: literal 
+      value: |
+        version: {{.Values.version}}
+        resource_servers:
+          - path: /app
+            connection_type: tcp
+            servers:
+              - host: {{.Values.host}}
+                port: {{.Values.port}}

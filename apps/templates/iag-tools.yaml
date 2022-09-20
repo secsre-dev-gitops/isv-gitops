@@ -1,0 +1,40 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iag-tools-{{.Values.environment}}
+  namespace: {{ .Values.metadata.argocd_namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+    notifications.argoproj.io/subscribe.on-health-degraded.workspace2: {{ .Values.slack.channel }}
+    notifications.argoproj.io/subscribe.on-sync-failed.workspace2: {{ .Values.slack.channel }}
+    notifications.argoproj.io/subscribe.on-sync-status-unknown.workspace2: {{ .Values.slack.channel }}
+spec:
+  destination:
+    namespace: {{ .Values.metadata.iag_namespace }}
+    server: {{ .Values.cluster.url }}
+  project: {{.Values.metadata.project}}
+  source:
+    path: resources/iag-tools
+    repoURL: {{ .Values.repoURL }}
+    targetRevision: {{.Values.targetRevision}}
+    plugin:
+      env: 
+        - name: HELM_ARGS
+          value: >-
+            --set replicas=2
+            --set version=20.12.0
+            --set host=google.com
+            --set port=80
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
