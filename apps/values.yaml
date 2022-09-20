@@ -1,0 +1,13 @@
+environment: poc
+metadata:
+  namespace: isv
+  argocd_namespace: openshift-gitops
+  iag_namespace: iag
+  project: default
+serviceaccount:
+  argocd_application_controller: argocd-application-controller
+slack:
+  channel: argocd
+cluster:
+  url: https://kubernetes.default.svc
+repoURL: https://github.com/secsre-dev-gitops/isv-gitops
