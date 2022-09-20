@@ -16,6 +16,7 @@ spec:
   source:
     path: resources/iag-operator
     repoURL: {{ .Values.repoURL }}
+    targetRevision: {{.Values.targetRevision}}
   syncPolicy:
     automated:
       prune: true
