@@ -18,14 +18,6 @@ spec:
     path: resources/iag-tools
     repoURL: {{ .Values.repoURL }}
     targetRevision: {{.Values.targetRevision}}
-    plugin:
-      env: 
-        - name: HELM_ARGS
-          value: >-
-            --set replicas=2
-            --set version=20.12.0
-            --set host=google.com
-            --set port=80
   syncPolicy:
     automated:
       prune: true
