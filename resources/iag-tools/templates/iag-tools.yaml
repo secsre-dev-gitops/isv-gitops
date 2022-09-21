@@ -8,7 +8,7 @@ spec:
   replicas: {{.Values.replicas}}
   deployment:
     serviceAccountName: ibm-application-gateway
-    image: ibmcom/ibm-application-gateway:{{.Values.iag-tools.version}}
+    image: ibmcom/ibm-application-gateway:21.12.1
     imagePullPolicy: IfNotPresent 
   configuration:
     - type: configmap
